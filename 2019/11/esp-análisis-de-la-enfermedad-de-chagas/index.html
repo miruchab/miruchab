@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="Miranda Chab">
+<meta name="keywords" content="tech">
+<meta name="description" content="Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.">
+
+
+<meta property="og:description" content="Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[ESP] Análisis de la enfermedad de Chagas">
+<meta name="twitter:title" content="[ESP] Análisis de la enfermedad de Chagas">
+<meta property="og:url" content="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+<meta property="twitter:url" content="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+<meta property="og:site_name" content="VeterinR">
+<meta property="og:description" content="Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.">
+<meta name="twitter:description" content="Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-11-16T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-11-16T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="veterinary">
+    
+      <meta property="article:tag" content="public health">
+    
+      <meta property="article:tag" content="salud publica">
+    
+      <meta property="article:tag" content="veterinaria">
+    
+      <meta property="article:tag" content="epidemiologia">
+    
+      <meta property="article:tag" content="epidemiology">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+
+
+    <title>[ESP] Análisis de la enfermedad de Chagas</title>
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">VeterinR</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Miranda Chab</h4>
+        
+          <h5 class="sidebar-profile-bio">Veterinary + Data Science</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/miruchab">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      [ESP] Análisis de la enfermedad de Chagas
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-11-16T00:00:00Z">
+        
+  November 16, 2019
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.</p>
+<p>Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria. Esta es una extensión del análisis realizado para dicho trabajo, que fue un poco más corto porque tenía que presentarse en formato de póster científico, acompañado por un informe y una presentación en PowerPoint ante las autoridades de la facultad. Como el punto era mostrar la aplicación de R, también elegí un dataset simple para no recargar demasiado el trabajo con información.</p>
+<p>Para este fin, busqué un dataset oficial de la Secretaría de Modernización del gobierno argentino. Encontré uno sobre las notificaciones de la enfermedad de Chagas agudo vectorial en toda la República Argentina, entre los años 1996 a 2017.</p>
+<p>La enfermedad de Chagas (o mal de Chagas-Mazza) es una enfermedad parasitaria tropical desatendida y potencialmente mortal, causada por el protozoo flagelado Trypanosoma cruzi. Este mal es una zoonosis que afecta a varios vertebrados diferentes. Los perros son importantes reservorios de la enfermedad, no porque transmitan la infección directamente al ser humano, sino porque como conviven en estrecha cercanía, cuando son picados por la chinche o vinchuca (Triatoma infestans principalmente), ese mismo insecto puede picar al ser humano.</p>
+<div id="instalación-de-paquetes-necesarios" class="section level2">
+<h2>Instalación de paquetes necesarios</h2>
+<pre class="r"><code>if(!require(pacman))install.packages(&quot;pacman&quot;)
+pacman::p_load(&#39;dplyr&#39;, &#39;tidyr&#39;, &#39;gapminder&#39;,
+               &#39;ggplot2&#39;,  &#39;ggalt&#39;,
+               &#39;forcats&#39;, &#39;R.utils&#39;, &#39;png&#39;, 
+               &#39;grid&#39;, &#39;ggpubr&#39;, &#39;scales&#39;,
+               &#39;bbplot&#39;, &#39;lubridate&#39;, 
+               &#39;tidyverse&#39;, &#39;tidyr&#39;,
+               &#39;readr&#39;, &#39;rmarkdown&#39;,
+               &#39;tinytex&#39;, &#39;knitr&#39;,
+               &#39;devtools&#39;)</code></pre>
+</div>
+<div id="descarga-de-datos" class="section level2">
+<h2>Descarga de datos</h2>
+<pre class="r"><code>chagas &lt;- 
+        read.csv(
+                &quot;http://datos.salud.gob.ar/dataset/50bc5ed8-3730-433c-976b-78f749ed740b/resource/2c72e717-0ca9-4aad-a674-79e4bc132ebe/download/casos-chagas-agudos-vectoriales-notificados-confirmados.csv&quot;) </code></pre>
+<p>Fuente del dataset: <a href="https://datos.gob.ar/dataset/salud-vigilancia-chagas-agudo-vectorial/archivo/salud_2c72e717-0ca9-4aad-a674-79e4bc132ebe" class="uri">https://datos.gob.ar/dataset/salud-vigilancia-chagas-agudo-vectorial/archivo/salud_2c72e717-0ca9-4aad-a674-79e4bc132ebe</a></p>
+</div>
+<div id="manipulación-de-los-datos" class="section level2">
+<h2>Manipulación de los datos</h2>
+<pre class="r"><code>chagas &lt;- chagas %&gt;%
+        rename_all(~str_replace_all(.,&quot;casos_chagas_&quot;,&quot;&quot;))
+
+chagas &lt;- chagas %&gt;% 
+        mutate(indice_tiempo = as.Date(indice_tiempo, format = &quot;%Y&quot;))
+
+chagas &lt;- separate(data = chagas, col = &quot;indice_tiempo&quot;, into = c(&quot;año&quot;, NULL, NULL))
+
+chagas &lt;- pivot_longer(data = chagas, 
+                       cols = ciudad_autonoma_buenos_aires:tierra_del_fuego, 
+                       values_to = &quot;casos&quot;)
+
+chagas_provincia &lt;- chagas %&gt;%
+        filter(casos &gt; 0) %&gt;%
+        select(-argentina) %&gt;%
+        group_by(año, name) %&gt;%
+        summarise(casos_totales = sum(casos))</code></pre>
+<p>Algunas modificaciones básicas, como quitarle el mes y días a las fechas (en todos los casos figuraba, por ejemplo, “01-01-2000” en vez del año 2000, lo cual es más útil). También simplifiqué los títulos de las columnas que hacen referencia al nombre de la provincia, y reduje todas las variables (eran una por provincia) a una sola llamada “casos”.</p>
+<p>Asimismo, creé otro dataframe llamado “chagas_provincia”, que será utilizado más adelante.</p>
+<p>Lo primero a realizar es ver cómo fue la progresión de la prevalencia de esta enfermedad en todo el territorio argentino.</p>
+</div>
+<div id="gráfico-de-argentina" class="section level2">
+<h2>Gráfico de Argentina</h2>
+<pre class="r"><code>ggplot(chagas) +
+        geom_point(aes(x = año, y = argentina), color = &quot;lightseagreen&quot;, size = 2) +
+        labs(title = &quot;Casos informados de Chagas&quot;,
+            subtitle = &quot;En la República Argentina\n&quot;,
+            y = &quot;Cantidad de casos notificados\n&quot;,
+            x = NULL,
+            caption = &quot;Fuente: https://datos.salud.gob.ar/&quot;) +
+        theme_minimal() +
+    geom_hline(yintercept = median(chagas$argentina), size = 0.5, 
+colour = &quot;paleturquoise3&quot;, linetype = &quot;dashed&quot;) +
+    geom_curve(aes(x = 17, y = 11, xend = 19, yend = 15), 
+                             colour = &quot;paleturquoise3&quot;, 
+                             size = 0.5, 
+                             curvature = -0.2,
+                             arrow = arrow(length = unit(0.03, &quot;npc&quot;))) +
+  geom_label(aes(x = 19.2, y = 15, label = &quot;Media&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             lineheight = 0.8,
+             colour = &quot;lightseagreen&quot;,
+             family = &quot;Helvetica&quot;,  
+             label.size = NA, 
+             size = 4) +
+        theme(axis.text.x = element_text(angle = 45))</code></pre>
+<p><img src="/post/2019-11-16-esp-an%C3%A1lisis-de-la-enfermedad-de-chagas_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
+<p>Se puede observar la tendencia a la disminución de casos notificados con el transcurrir del tiempo… Lo cual es genial!</p>
+<p>El siguiente punto de interés es ver en qué provincias sucedieron estos casos, ya que el norte del país es endémico para esta enfermedad. Esto sucede porque la vinchuca se halla en el 70% del territorio nacional (desde el norte del país hasta el sur de Río Negro) y en mayor cantidad en las regiones de clima cálido y seco.</p>
+</div>
+<div id="gráfico-por-provincia" class="section level2">
+<h2>Gráfico por provincia</h2>
+<pre class="r"><code>ggplot(chagas_provincia,
+       aes(x = año, y = casos_totales, fill = name)) +
+  geom_col() +
+  labs(title = &quot;Distribución por provincia de los casos informados de Chagas&quot;,
+       subtitle = &quot;En la República Argentina\n&quot;,
+       y = &quot;Cantidad de casos notificados\n&quot;,
+       x = NULL,
+       caption = &quot;Fuente: https://datos.salud.gob.ar/&quot;) +
+        scale_fill_discrete(name=&quot;Provincia&quot;,
+                         labels=c(&quot;Catamarca&quot;, &quot;Chaco&quot;, &quot;Córdoba&quot;, 
+                                  &quot;Corrientes&quot;, &quot;Formosa&quot;, &quot;La Rioja&quot;, 
+                                  &quot;Salta&quot;, &quot;San Juan&quot;, &quot;San Luis&quot;, 
+                                  &quot;Santiago del Estero&quot;)) +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 45))</code></pre>
+<p><img src="/post/2019-11-16-esp-an%C3%A1lisis-de-la-enfermedad-de-chagas_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p>Como se ve, la mayoría de los casos notificados históricamente (o al menos, desde 1996) se concentraron en la provincia de Santiago del Estero (lo cual tiene sentido, ya que está en el área endémica). Sin embargo, resulta interesante la disminución progresiva que se dio en la cantidad de notificaciones, tanto en esta provincia como en la República Argentina en general.</p>
+<p>Algo que podría ser útil, si bien el gráfico no se verá tan bonito, es una comparación más objetiva entre provincias. Así, usando la misma escala para todas ellas, se podrá evidenciar la cantidad de casos por provincia y la distribución en cada una a lo largo del tiempo.</p>
+</div>
+<div id="gráfico-comparativo-entre-provincias" class="section level2">
+<h2>Gráfico comparativo entre provincias</h2>
+<pre class="r"><code>chagas_provincia %&gt;%
+  ggplot(aes(x = año, y = casos_totales, group = name, color = name)) +
+    geom_point() +
+    labs(title = &quot;Serie cronológica por provincia en la República Argentina&quot;,
+         subtitle = &quot;Enfermedad de Chagas, años 1996-2017\n&quot;,
+         caption = &quot;Fuente: https://datos.salud.gob.ar/&quot;,
+         x = NULL,
+         y = &quot;Cantidad de casos&quot;) +
+    theme(legend.position=&quot;none&quot;,
+          strip.background = element_blank(),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank()) +
+    facet_wrap(~name,
+               labeller = as_labeller(c(&#39;catamarca&#39; = &quot;Catamarca&quot;, &#39;chaco&#39; = &quot;Chaco&quot;, &#39;cordoba&#39; = &quot;Córdoba&quot;, &#39;corrientes&#39; = &quot;Corrientes&quot;, &#39;formosa&#39; = &quot;Formosa&quot;, &#39;la_rioja&#39; = &quot;La Rioja&quot;, &#39;salta&#39; = &quot;Salta&quot;, &#39;san_juan&#39; = &quot;San Juan&quot;, &#39;san_luis&#39; = &quot;San Luis&quot;, &#39;santiago_del_estero&#39; = &quot;Santiago del Estero&quot;)))</code></pre>
+<p><img src="/post/2019-11-16-esp-an%C3%A1lisis-de-la-enfermedad-de-chagas_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<p>Definitivamente, lo que pierde en estético, lo gana en informativo. En todas las provincias (salvo en Formosa que presenta una distribución particular), o se mantuvo la prevalencia o fue disminuyendo. Santiago del Estero lidera el podio en cuanto a cantidad de casos, pero hubo una disminución drástica de la prevalencia alrededor del año 2005 (calculado “a ojímetro”). Este caso me resulta fascinante, ya que la caída es notable. Me gustaría ver un gráfico solo para esta provincia, ya que quiero saber en qué año sucedió esta caída y así poder averiguar qué medidas de Salud Pública se tomaron para lograrla.</p>
+</div>
+<div id="gráfico-de-santiago-del-estero" class="section level2">
+<h2>Gráfico de Santiago del Estero</h2>
+<pre class="r"><code>chagas_sde &lt;- chagas %&gt;% 
+        filter(name == &quot;santiago_del_estero&quot;) %&gt;% 
+        select(- argentina)
+
+chagas_sde %&gt;% 
+        ggplot(aes(x = año, y = casos, group = 1)) +
+        geom_line(linetype = &quot;dashed&quot;, color = &quot;mediumpurple1&quot;) +
+        geom_point(size = 3, color = &quot;mediumorchid4&quot;) +
+        labs(title = &quot;Serie cronológica en Santiago del Estero&quot;,
+         subtitle = &quot;Enfermedad de Chagas\n&quot;,
+         caption = &quot;Fuente: https://datos.salud.gob.ar/&quot;,
+         y = &quot;Cantidad de casos&quot;,
+         x = NULL) +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 45))</code></pre>
+<p><img src="/post/2019-11-16-esp-an%C3%A1lisis-de-la-enfermedad-de-chagas_files/figure-html/unnamed-chunk-7-1.png" width="864" /></p>
+<p>Pareciera ser que mi ojímetro no funciona tan bien (por eso es importante remitirse a las fuentes confiables), porque la disminución brusca de la prevalencia se da desde el 2009, no desde el 2005. Empiezo a googlear qué sucedió en Santiago del Estero en el 2008 (y un poco antes también).</p>
+<p>Encuentro que la PAHO/OPS (Organización Panamericana de la Salud) designó al Centro de Chagas de Santiago del Estero como Centro Colaborador de la OMS (Organización Mundial de la Salud) en 2015, por su labor en la erradicación de la enfermedad en 6 departamentos de esta provincia.</p>
+<p>Finalmente, en la página web del Ministerio de Salud de Santiago del Estero, encuentro una condecoración a uno de los fundadores del Centro de Chagas de esta provincia. Allí, él comenta que en el año 2005 se decide reformular el programa de Chagas, en virtud de que los 27 departamentos de la provincia denunciaban la presencia de esta enfermedad. Podría ser este el motivo de que apenas 4 años después hubiera una caída en la prevalencia, y sólo 10 años después se lo declarase Centro Colaborador de la OMS.</p>
+<p>En conclusión: el control de la Enfermedad de Chagas es muy importante en el territorio argentino, considerando que el norte es un área endémica de esta enfermedad. Tal como hemos visto en los datos, y considerando que se trata de una enfermedad con un alto grado de prevalencia que tiene como reservorio a uno de los animales domésticos más habituales, hay que resaltar la importancia de las políticas de Estado y las acciones de entidades de salud veterinaria que se dediquen tanto a difundir información como a combatir su diseminación.</p>
+</div>
+<div id="bibliografía" class="section level2">
+<h2>Bibliografía</h2>
+<ol style="list-style-type: decimal">
+<li><p><a href="http://www.msal.gob.ar/images/stories/bes/graficos/0000000172cnt-08-2-3-3-I-modulo-Chagas.pdf" class="uri">http://www.msal.gob.ar/images/stories/bes/graficos/0000000172cnt-08-2-3-3-I-modulo-Chagas.pdf</a></p></li>
+<li><p><a href="https://datos.gob.ar/dataset/salud-vigilancia-chagas-agudo-vectorial/archivo/salud_2c72e717-0ca9-4aad-a674-79e4bc132ebe" class="uri">https://datos.gob.ar/dataset/salud-vigilancia-chagas-agudo-vectorial/archivo/salud_2c72e717-0ca9-4aad-a674-79e4bc132ebe</a></p></li>
+<li><p><a href="https://www.argentina.gob.ar/salud/glosario/chagas" class="uri">https://www.argentina.gob.ar/salud/glosario/chagas</a></p></li>
+<li><p><a href="https://www.mundosano.org/endemia-argentina-sin-control-el-chagas-sigue-su-curso/" class="uri">https://www.mundosano.org/endemia-argentina-sin-control-el-chagas-sigue-su-curso/</a></p></li>
+<li><p><a href="https://www.dndi.org/wp-content/uploads/2010/03/Newsletter_3_ESP.pdf" class="uri">https://www.dndi.org/wp-content/uploads/2010/03/Newsletter_3_ESP.pdf</a> (el mapa del inicio es muy interesante!)</p></li>
+<li><p><a href="http://www.msaludsgo.gov.ar/web2/?cargar=articulo&amp;id=58" class="uri">http://www.msaludsgo.gov.ar/web2/?cargar=articulo&amp;id=58</a></p></li>
+<li><p><a href="https://www.paho.org/arg/index.php?option=com_content&amp;view=article&amp;id=9886:el-centro-de-chagas-de-santiago-del-estero-fue-designado-como-centro-colaborador-de-la-oms&amp;Itemid=527" class="uri">https://www.paho.org/arg/index.php?option=com_content&amp;view=article&amp;id=9886:el-centro-de-chagas-de-santiago-del-estero-fue-designado-como-centro-colaborador-de-la-oms&amp;Itemid=527</a></p></li>
+<li><p><a href="http://www.msaludsgo.gov.ar/web2/?cargar=articulo&amp;id=1124" class="uri">http://www.msaludsgo.gov.ar/web2/?cargar=articulo&amp;id=1124</a></p></li>
+</ol>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/veterinary/">veterinary</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/public-health/">public health</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/salud-publica/">salud publica</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/veterinaria/">veterinaria</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiologia/">epidemiologia</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiology/">epidemiology</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/" data-tooltip="[ESP] Observación de brotes según FAOSTAT">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/hello-r-markdown/" data-tooltip="Hello R Markdown">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Miranda Chab. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/" data-tooltip="[ESP] Observación de brotes según FAOSTAT">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/hello-r-markdown/" data-tooltip="Hello R Markdown">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2019%2F11%2Fesp-an%25C3%25A1lisis-de-la-enfermedad-de-chagas%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2019%2F11%2Fesp-an%25C3%25A1lisis-de-la-enfermedad-de-chagas%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2019%2F11%2Fesp-an%25C3%25A1lisis-de-la-enfermedad-de-chagas%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Miranda Chab</h4>
+    
+      <div id="about-card-bio">Veterinary + Data Science</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Veterinarian, Public Health oriented
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Buenos Aires, Argentina
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+                <h3 class="media-heading">[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+                <h3 class="media-heading">[ESP] Observación de brotes según FAOSTAT</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+                <h3 class="media-heading">[ESP] Análisis de la enfermedad de Chagas</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/07/hello-r-markdown/">
+                <h3 class="media-heading">Hello R Markdown</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/welcome-to-tranquilpeak-0.4.4-beta/">
+                <h3 class="media-heading">Welcome to Tranquilpeak 0.4.4-BETA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/who-is-using-tranquilpeak-hugo-theme/">
+                <h3 class="media-heading">Who&#39;s using Tranquilpeak Hugo Theme</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Here you can find a list of the blogs that use Tranquilpeak theme, with different styles and customizations.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/elements-showcase/">
+                <h3 class="media-heading">Elements showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&rsquo;s simple and elegant.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/cover-image-showcase/">
+                <h3 class="media-heading">Cover image showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak integrate a unique &ldquo;cover image&rdquo; feature. Open this post to see how this feature sublimate your article.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/03/highlighted-code-showcase/">
+                <h3 class="media-heading">highlighted code showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak Hugo theme have its own theme to highlight source code. It&rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2014/10/tags-plugins-showcase/">
+                <h3 class="media-heading">Tags plugins showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how tag plugins are displayed. See <a href="https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags">docs</a> for more info.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         17 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2019\/11\/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas\/';
+          
+            this.page.identifier = '\/2019\/11\/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

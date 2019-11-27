@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="Miranda Chab">
+<meta name="keywords" content="tech">
+<meta name="description" content="Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.">
+
+
+<meta property="og:description" content="Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[ESP] Observación de brotes según FAOSTAT">
+<meta name="twitter:title" content="[ESP] Observación de brotes según FAOSTAT">
+<meta property="og:url" content="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+<meta property="twitter:url" content="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+<meta property="og:site_name" content="VeterinR">
+<meta property="og:description" content="Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.">
+<meta name="twitter:description" content="Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-11-18T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-11-18T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="veterinary">
+    
+      <meta property="article:tag" content="veterinaria">
+    
+      <meta property="article:tag" content="public health">
+    
+      <meta property="article:tag" content="salud publica">
+    
+      <meta property="article:tag" content="R Markdown">
+    
+      <meta property="article:tag" content="epidemiology">
+    
+      <meta property="article:tag" content="epidemiologia">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+
+
+    <title>[ESP] Observación de brotes según FAOSTAT</title>
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">VeterinR</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Miranda Chab</h4>
+        
+          <h5 class="sidebar-profile-bio">Veterinary + Data Science</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/miruchab">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      [ESP] Observación de brotes según FAOSTAT
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-11-18T00:00:00Z">
+        
+  November 18, 2019
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!</p>
+<p>Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.</p>
+<p>Después de una búsqueda muy simple (solamente filtré que el país de las observaciones sea Argentina), di con un dataset que me resultó interesante, ya que detalla todas las denuncias para estas enfermedades que la FAO tiene registradas.</p>
+<p>Una aclaración: probablemente no todos los casos hayan sido denunciados como exige la normativa; por lo tanto, este dataset no es 100% representativo de todos los casos presentes en el territorio argentino. Sería interesante saber cuántos casos de cada enfermedad hubo realmente y por qué no se denuncian.</p>
+<div id="cargado-de-paquetes-necesarios" class="section level1">
+<h1>Cargado de paquetes necesarios</h1>
+<pre class="r"><code>if(!require(pacman))install.packages(&quot;pacman&quot;)
+pacman::p_load(&#39;dplyr&#39;, &#39;tidyr&#39;, &#39;gapminder&#39;,
+               &#39;ggplot2&#39;,  &#39;ggalt&#39;,
+               &#39;forcats&#39;, &#39;R.utils&#39;, &#39;png&#39;, 
+               &#39;grid&#39;, &#39;ggpubr&#39;, &#39;scales&#39;,
+               &#39;bbplot&#39;, &#39;lubridate&#39;, 
+               &#39;tidyverse&#39;, &#39;tidyr&#39;,
+               &#39;readr&#39;,
+               &#39;tinytex&#39;, &#39;knitr&#39;,
+               &#39;devtools&#39;, &#39;maps&#39;,
+               &#39;mapproj&#39;, &#39;ggmap&#39;,
+               &#39;sf&#39;, &#39;data.table&#39;,
+               &#39;ggrepel&#39;, &#39;scales&#39;)
+# Sí, ya sé que no necesito tantos, pero siempre prefiero copiar y pegar esto en vez de pensar cuáles necesito en cada caso... Aparte, eran las 2 AM!
+
+ggmap::register_google(key = &quot;AIzaSyACBzJlTQGdyQKKFjDeZbA44I0QyFFy2FM&quot;)</code></pre>
+</div>
+<div id="cargado-de-datos" class="section level1">
+<h1>Cargado de datos</h1>
+<pre class="r"><code>fao &lt;- read.csv(&quot;/Users/miru/R/Proyectos personales/FAOSTAT outbreaks Argentina/Outbreak_list122053931977461787.csv&quot;)</code></pre>
+<p>Fuente del dataset: <a href="http://empres-i.fao.org/eipws3g/" class="uri">http://empres-i.fao.org/eipws3g/</a></p>
+</div>
+<div id="modificación-de-datos" class="section level1">
+<h1>Modificación de datos</h1>
+<pre class="r"><code>fao &lt;- fao %&gt;%
+        select(c(source, latitude, longitude, localityName, observationDate, 
+                 disease, serotypes, speciesDescription)) 
+
+
+fao &lt;- mutate(fao, observationDate = dmy(fao$observationDate)) 
+
+fao$localityName &lt;- as.character(fao$localityName)</code></pre>
+</div>
+<div id="mapa-de-la-provincia-de-buenos-aires" class="section level1">
+<h1>Mapa de la Provincia de Buenos Aires</h1>
+<p>Me parece interesante empezar por la observación de los casos denunciados en la Provincia de Buenos Aires (que es donde se concentran la mayoría de las denuncias de todo el territorio de la República Argentina).</p>
+<p>En este caso, el criterio de división utilizado es de qué fuente proviene la denuncia, ya sea de autoridades nacionales o de la OIE (internacional).</p>
+<pre class="r"><code>mapa_ba &lt;- get_googlemap(center = c(-60, -36), zoom = 7)
+
+ggmap(mapa_ba) +
+        geom_point(aes(x = longitude, y = latitude,  colour = source), 
+                   data = fao, size = 7, alpha = 0.8) +
+        labs(title = &quot;Distribución de las denuncias en Buenos Aires&quot;,
+             subtitle = &quot;Por fuente de denuncia\n&quot;,
+             x = &quot;Longitud&quot;,
+             y = &quot;Latitud&quot;) +
+        scale_color_manual(values = c(&quot;mediumpurple4&quot;, &quot;mediumturquoise&quot;),
+                name = &quot;Fuente de denuncia&quot;,
+                            labels = c(&quot;Autoridades nacionales&quot;, &quot;OIE&quot;)) </code></pre>
+<p><img src="/post/2019-11-16-esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
+<p>Podemos ver que, entre los años 2006 y 2018, encontramos 13 denuncias de enfermedades de interés veterinario. Sin embargo, no sabemos de qué enfermedades se trata. Para eso, debemos realizar otro gráfico.</p>
+</div>
+<div id="otro-mapa-de-la-provincia-de-buenos-aires" class="section level1">
+<h1>Otro mapa de la Provincia de Buenos Aires</h1>
+<pre class="r"><code>mapa_ba2 &lt;- get_googlemap(center = c(-58.5, -34.5), zoom = 8)
+
+ggmap(mapa_ba2) +
+        geom_point(aes(x = longitude, y = latitude,  colour = disease), 
+                   data = fao, size = 7, alpha = 0.8) +
+        labs(title = &quot;Distribución de las denuncias en Buenos Aires&quot;,
+             subtitle = &quot;Por tipo de enfermedad\n&quot;,
+             x = &quot;Longitud&quot;,
+             y = &quot;Latitud&quot;) +
+         scale_color_discrete(name = &quot;Enfermedad&quot;,
+                         labels = c(&quot;Ántrax&quot;, &quot;Fiebre Aftosa&quot;, &quot;Influenza Equina&quot;, 
+                                  &quot;Influenza Porcina&quot;, &quot;Fiebre del Nilo Occidental&quot;))</code></pre>
+<p><img src="/post/2019-11-16-esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p>De esto se desprende que:</p>
+<ol style="list-style-type: decimal">
+<li><p>Hubo una denuncia de Ántrax (qué miedo!). Según la OIE, esta enfermedad está presente en nuestro país. Debo admitir que no recordaba esta información, y que me preocupa bastante.</p></li>
+<li><p>Al menos en Buenos Aires, no hubo denuncias de Fiebre Aftosa (enfermedad para la cual Argentina se considera libre, con vacunación al norte del paralelo 42º y sin vacunación al sur de este).</p></li>
+<li><p>Algunas denuncias de enfermedades de los equinos como la Influenza Equina (también conocida como Gripe Equina, catalogada como “sospechosa” según la OIE) y la Fiebre del Nilo Occidental (para la que Argentina es libre desde el 2006).</p></li>
+<li><p>Dos denuncias de Influenza Porcina, que fue particularmente problemática en 2009 debido a una pandemia y por su característica de enfermedad zoonótica.</p></li>
+</ol>
+<p>A mi parecer, el próximo paso es saber cuándo se realizaron dichas denuncias, para asegurarnos de que no hubieran casos una vez que el territorio fue declarado libre de cierta enfermedad. Para esto, trataremos de realizar un gráfico en función del tiempo.</p>
+<pre class="r"><code>ggplot(fao) +
+        geom_point(aes(x = observationDate, y = disease, color = disease), size = 8, alpha = 0.2) + 
+        labs(title = &quot;Enfermedades informadas&quot;,
+            subtitle = &quot;En la República Argentina\n&quot;,
+            y = NULL,
+            x = NULL,
+            caption = &quot;Fuente: http://empres-i.fao.org/eipws3g/&quot;,
+            fill = NULL) +
+        theme_minimal() +
+        scale_x_date(breaks = fao$observationDate,
+                     date_breaks = &quot;1 year&quot;,
+                     date_labels = &quot;%Y&quot;) +
+        scale_y_discrete(labels = c(&quot;Ántrax&quot;, &quot;Fiebre Aftosa&quot;, &quot;Influenza Equina&quot;, 
+                                  &quot;Influenza Porcina&quot;, &quot;Fiebre del Nilo Occidental&quot;)) +
+        theme(legend.position = &quot;none&quot;,
+              axis.text.x = element_text(angle = 90, size = 8)) </code></pre>
+<p><img src="/post/2019-11-16-esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat_files/figure-html/fig1-1.png" width="1152" /></p>
+<p>Se observa que:</p>
+<ol style="list-style-type: decimal">
+<li><p>Los últimos casos notificados de la Fiebre del Oeste del Nilo fueron en 2006, lo cual tiene sentido, ya que Argentina se considera libre de dicha enfermedad desde ese entonces.</p></li>
+<li><p>También se muestra muy claramente la pandemia de Gripe Porcina del 2009. Quienes vivan en el territorio argentino seguramente lo recordarán, ya que hubo un gran despliegue mediático al respecto.</p></li>
+<li><p>Respecto a la Influenza Equina, en abril del año 2018 hubo un brote del serotipo H3N8. Si bien la enfermedad es endémica en el territorio argentino, no suele presentarse en forma de brotes; es por este motivo que se consideró de magnitud tal como para notificarlo a la OIE. Al mes siguiente, “la epidemia ya se había atenuado”, según reportes del SENASA.</p></li>
+<li><p>Se ve incluso el último brote de Fiebre Aftosa registrado en Argentina, en el año 2006. Desde ese momento, Argentina se considera libre, con vacunación al norte del paralelo 42º y sin vacunación al sur del mismo.</p></li>
+<li><p>En cuanto al Ántrax, no es fácil encontrar información. Durante 2013 y 2014, en la provincia de Buenos Aires se identificaron 39 brotes en el ganado bovino. Sólo en el 2013 se reportaron 7 casos humanos de Ántrax cutáneo allí. En el 2014, se reportó una muerte humana debido a esta enfermedad.</p></li>
+</ol>
+<p>Analizar este dataset me hizo cuestionar qué tanto los casos son denunciados y por qué. Hay enfermedades de las mencionadas que son conocidas por la población argentina, como es el caso de la Influenza Porcina. Pero en otros casos, como el Ántrax o la Fiebre Aftosa, me pregunto si la falta de conocimiento lleva a un subdiagnóstico, por realizarse pocas denuncias.</p>
+<p>En conclusión, es menester poseer políticas públicas nacionales e internacionales orientadas al conocimiento de la epidemiología, sintomatología (humana y animal) y el proceso de denuncia; para así obtener información consistente y representativa de las prevalencias de estas enfermedades.</p>
+<p>Espero que ustedes, quienes lo lean, lo disfruten tanto como yo!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/veterinary/">veterinary</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/veterinaria/">veterinaria</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/public-health/">public health</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/salud-publica/">salud publica</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/r-markdown/">R Markdown</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiology/">epidemiology</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiologia/">epidemiologia</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/" data-tooltip="[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/" data-tooltip="[ESP] Análisis de la enfermedad de Chagas">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Miranda Chab. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/" data-tooltip="[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/" data-tooltip="[ESP] Análisis de la enfermedad de Chagas">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2019%2F11%2Fesp-observaci%25C3%25B3n-de-brotes-seg%25C3%25BAn-faostat%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2019%2F11%2Fesp-observaci%25C3%25B3n-de-brotes-seg%25C3%25BAn-faostat%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2019%2F11%2Fesp-observaci%25C3%25B3n-de-brotes-seg%25C3%25BAn-faostat%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Miranda Chab</h4>
+    
+      <div id="about-card-bio">Veterinary + Data Science</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Veterinarian, Public Health oriented
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Buenos Aires, Argentina
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+                <h3 class="media-heading">[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+                <h3 class="media-heading">[ESP] Observación de brotes según FAOSTAT</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+                <h3 class="media-heading">[ESP] Análisis de la enfermedad de Chagas</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/07/hello-r-markdown/">
+                <h3 class="media-heading">Hello R Markdown</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/welcome-to-tranquilpeak-0.4.4-beta/">
+                <h3 class="media-heading">Welcome to Tranquilpeak 0.4.4-BETA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/who-is-using-tranquilpeak-hugo-theme/">
+                <h3 class="media-heading">Who&#39;s using Tranquilpeak Hugo Theme</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Here you can find a list of the blogs that use Tranquilpeak theme, with different styles and customizations.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/elements-showcase/">
+                <h3 class="media-heading">Elements showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&rsquo;s simple and elegant.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/cover-image-showcase/">
+                <h3 class="media-heading">Cover image showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak integrate a unique &ldquo;cover image&rdquo; feature. Open this post to see how this feature sublimate your article.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/03/highlighted-code-showcase/">
+                <h3 class="media-heading">highlighted code showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak Hugo theme have its own theme to highlight source code. It&rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2014/10/tags-plugins-showcase/">
+                <h3 class="media-heading">Tags plugins showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how tag plugins are displayed. See <a href="https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags">docs</a> for more info.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         17 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2019\/11\/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat\/';
+          
+            this.page.identifier = '\/2019\/11\/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

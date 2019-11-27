@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="Miranda Chab">
+<meta name="keywords" content="tech">
+<meta name="description" content="Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.">
+
+
+<meta property="og:description" content="Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS">
+<meta name="twitter:title" content="[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS">
+<meta property="og:url" content="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+<meta property="twitter:url" content="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+<meta property="og:site_name" content="VeterinR">
+<meta property="og:description" content="Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.">
+<meta name="twitter:description" content="Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-11-21T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-11-21T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="veterinary">
+    
+      <meta property="article:tag" content="veterinaria">
+    
+      <meta property="article:tag" content="public health">
+    
+      <meta property="article:tag" content="salud publica">
+    
+      <meta property="article:tag" content="R Markdown">
+    
+      <meta property="article:tag" content="epidemiology">
+    
+      <meta property="article:tag" content="epidemiologia">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+
+
+    <title>[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</title>
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">VeterinR</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Miranda Chab</h4>
+        
+          <h5 class="sidebar-profile-bio">Veterinary + Data Science</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/miruchab">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      [ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-11-21T00:00:00Z">
+        
+  November 21, 2019
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.</p>
+<p>Instalación de paquetes necesarios:</p>
+<pre class="r"><code>library(WHO)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+
+codes &lt;- get_codes(extra = TRUE)
+glimpse(codes)</code></pre>
+<p>Con este paquete, se descargan automáticamente 3287 <em>datasets</em> sobre diversos tópicos. Ahí encontré algunos sobre leishmaniasis, algo que me agrada, ya que este año tuve que realizar una investigación sobre esa enfermedad y el Programa Nacional de Leishmaniasis para la materia “Salud Pública II” en la Facultad de Ciencias Veterinarias de la UBA.</p>
+<p>Respecto a esta enfermedad, es zoonótica, antropozoonótica, vectorial y de distribución mundial. Es causada por un protozoo parásito del género Leishmania, que cuenta con más de 20 especies diferentes. Se clasifica como una enfermedad tropical desatendida (<em>neglected tropical disease</em>, “NTD”). Se presenta en tres formas principales: leishmaniasis visceral, leishmaniasis cutánea y leishmaniasis mucocutánea. En este caso, solo analizaré las formas visceral (la más grave) y cutánea (la más frecuente).</p>
+<p>El ciclo se presenta del siguiente modo:</p>
+<div class="figure">
+<img src="https://www.monografias.com/trabajos109/la-leishmaniasis-visceral/image007.jpg" alt="" />
+<p class="caption">Fuente: <em>CDC (Center for Disease Control and Prevention).</em></p>
+</div>
+<p>El rol de los perros en esta enfermedad es el de principal reservorio, al menos en América Latina y sobre todo para la forma visceral. Al ser picados por flebótomos hembra, y debido a su estrecha relacion con seres humanos, perpetúan el ciclo de la Leishmania. Por ejemplo, en <a href="http://www.msal.gob.ar/images/stories/bes/graficos/0000000171cnt-07-2-3-3-H-modulo-leishmaniasis.pdf">esta guía del 2010</a> encuentro que según datos del Ministerio de Salud de Misiones, sólo en Posadas hay alrededor de 100 mil perros, de los cuales la mitad está infectada. Y lo más preocupante, únicamente el 20% está bajo tratamiento o vigilancia veterinaria, lo que aumenta el riesgo de que sea picado por un vector y éste transmita la enfermedad a los humanos. Ante el avance de este mal, las autoridades sanitarias lanzaron una medida que generó descontento: siguiendo lineamientos de la OMS, recomendaron “sacrificar a los perros que se haya comprobado son parasitológicamente positivos, ya que pueden actuar como foco de infección de los vectores y de esta forma de la leishmaniasis en humanos”. Esto despertó la indignación de diversas asociaciones de animales, y 200 personas marcharon por las calles de Posadas para denunciar la matanza de mil perros y exigir “una respuesta prudente, seria, sin el sacrificio de animales”. Es decir, pareciera ser que el pueblo misionero no acepta la eutanasia como solución.</p>
+<p>Para comenzar, descarga y limpieza de los <em>datasets</em>:</p>
+<pre class="r"><code>leish_cut &lt;- get_data(&quot;NTD_LEISHCNUM&quot;) %&gt;%
+        select(- c(publishstate, gho)) %&gt;% 
+        filter(value != &quot;No data&quot;) %&gt;% 
+        mutate(value = as.numeric(value))
+
+leish_visc &lt;- get_data(&quot;NTD_LEISHVNUM&quot;) %&gt;%
+        select(- c(publishstate, gho)) %&gt;% 
+        filter(value != &quot;No data&quot;) %&gt;% 
+        mutate(value = as.numeric(value))</code></pre>
+<p>Fuentes:</p>
+<p><a href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3760" class="uri">https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3760</a></p>
+<p><a href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3759" class="uri">https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3759</a></p>
+<p>Con estos <em>datasets</em>, se me ocurre que puedo observar la distribución desde lo más macro (global) hasta una visión un poco más micro (en este caso, Argentina).</p>
+<p>Primero, quiero obtener una visión global de leishmaniasis cutánea, por región:</p>
+<pre class="r"><code>leish_cut %&gt;%
+        group_by(region, year) %&gt;%
+        summarise(value = sum(value)) %&gt;%
+        ggplot(aes(x = year, y = value, color = region, linetype = region)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis cutánea (por región)&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL,
+                            labels = c(&quot;África&quot;, &quot;Ámerica&quot;, &quot;Medio Oriente&quot;, 
+                                       &quot;Europa&quot;, &quot;Sudeste Asiático&quot;, &quot;Pacífico Occidental&quot;)) </code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
+<p>En este gráfico, se evidencia que la región que presenta más casos es Medio Oriente, con un gran aumento en este rango de tiempo, y una disminución hacia el 2017. En la página de la OMS, encuentro que en esta región se concentra el 70% de los casos de leishmaniasis cutánea del mundo. Aparentemente, ninguna de estas regiones es libre para esta enfermedad.</p>
+<p>Y lo mismo para leishmaniasis visceral:</p>
+<pre class="r"><code>leish_visc %&gt;%
+        group_by(region, year) %&gt;%
+        summarise(value = sum(value)) %&gt;%
+        ggplot(aes(x = year, y = value, color = region, linetype = region)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis visceral (por región)&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL,
+                            labels = c(&quot;África&quot;, &quot;Ámerica&quot;, &quot;Medio Oriente&quot;, 
+                                       &quot;Europa&quot;, &quot;Sudeste Asiático&quot;, &quot;Pacífico Occidental&quot;)) </code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
+<p>En el caso de leishmaniasis visceral, se ve que es mucho menos frecuente, de ahí que la escala de número de casos sea considerablemente menor. En este caso, la región con mayor prevalencia es el Sudeste Asiático. Nuevamente, no hay áreas totalmente libres, aunque la prevalencia es muchísimo menor en Europa y en Pacífico Occidental (que en este <em>dataset</em> está representado solamente por China).</p>
+<p>Antes de pasar a una visión regional, quiero ver la distribución en todo el continente americano.</p>
+<p>En el caso de leishmaniasis cutánea, los países representados son Argentina, Bolivia, Brasil, Colombia, Costa Rica, Ecuador, El Salvador, Guatemala, Guyana, Honduras, México, Nicaragua, Panamá, Paraguay, Perú, Suriname, Estados Unidos y Venezuela.</p>
+<p>En el caso de leishmaniasis visceral, los países representados son Argentina, Bolivia, Brasil, Colombia, El Salvador, Guatemala, Honduras, México, Nicaragua, Paraguay y Venezuela.</p>
+<p>Para saber si hay algún problema en cuanto a la representación de países o si solo están representados aquellos endémicos, me encargué de buscar la situación epidemiológica de cada país respecto a los dos tipos de la enfermedad. Aparentemente, el <em>dataset</em> solo contiene representados a aquellos países que son endémicos… Tiene sentido.</p>
+<pre class="r"><code>lc_america &lt;- leish_cut %&gt;%
+        filter(region == &quot;Americas&quot;) %&gt;%
+        group_by(year) %&gt;%
+        summarise(value = sum(value))
+
+lv_america &lt;- leish_visc %&gt;% 
+        filter(region == &quot;Americas&quot;) %&gt;% 
+        group_by(year) %&gt;%
+        summarise(value = sum(value))</code></pre>
+<p>Para visualizar la leishmaniasis cutánea en América:</p>
+<pre class="r"><code>lc_america %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, colour = &quot;indianred1&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis cutánea en América&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<p>Para la visceral:</p>
+<pre class="r"><code>lv_america %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, colour = &quot;indianred1&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis visceral en América&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-7-1.png" width="864" /></p>
+<p>La leishmaniasis cutánea tiene una mayor prevalencia que la visceral en América, por superar los 70.000 casos anuales. La visceral no alcanza los 5000 casos anuales, pero es mucho más grave. Según esta página de la <a href="https://www.who.int/es/news-room/fact-sheets/detail/leishmaniasis#:~:targetText=Regi%C3%B3n%20de%20las%20Am%C3%A9ricas%20de,y%20la%20respuesta%20al%20tratamiento.">OMS</a>, “en más del 95% de los casos es mortal si no se trata. Se caracteriza por episodios irregulares de fiebre, pérdida de peso, hepatoesplenomegalia y anemia”. La forma cutánea, en cambio, “produce en las zonas expuestas del cuerpo lesiones cutáneas, sobre todo ulcerosas, que dejan cicatrices de por vida y son causa de discapacidad grave”.</p>
+<p>Ahora, me intriga cuál es la distribución en Sudamérica. Sé que en Brasil se concentran una gran cantidad de casos, tanto cutáneos como viscerales; pero antes de llegar a la distribución temporal en Argentina, prefiero ver la sudamericana.</p>
+<pre class="r"><code>lc_sudamerica &lt;- leish_cut %&gt;% 
+        filter(country %in% c(&quot;Argentina&quot;, &quot;Bolivia (Plurinational State of)&quot;, &quot;Brazil&quot;, &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Guyana&quot;, &quot;Paraguay&quot;, &quot;Peru&quot;, &quot;Suriname&quot;, &quot;Venezuela (Bolivarian Republic of)&quot;)) %&gt;%
+        group_by(year, country) %&gt;%
+        summarise(value = sum(value))
+
+lv_sudamerica &lt;- leish_visc %&gt;% 
+        filter(country %in% c(&quot;Argentina&quot;, &quot;Bolivia (Plurinational State of)&quot;, &quot;Brazil&quot;, &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Guyana&quot;, &quot;Paraguay&quot;, &quot;Peru&quot;, &quot;Suriname&quot;, &quot;Venezuela (Bolivarian Republic of)&quot;)) %&gt;%
+        group_by(year, country) %&gt;%
+        summarise(value = sum(value)) </code></pre>
+<p>Empiezo con la leishmaniasis cutánea:</p>
+<pre class="r"><code>lc_sudamerica %&gt;%
+        ggplot(aes(x = year, y = value, color = country, linetype = country)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis cutánea en Sudamérica&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL,
+                            labels = c(&quot;Argentina&quot;, &quot;Bolivia&quot;, &quot;Brasil&quot;, 
+                                       &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Guyana&quot;, &quot;Paraguay&quot;,
+                                       &quot;Perú&quot;, &quot;Suriname&quot;, &quot;Venezuela&quot;)) </code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-9-1.png" width="864" /></p>
+<p>Estaba en lo cierto: Brasil es quien presenta la mayor prevalencia de la forma cutánea… Pero en Colombia y Perú también son elevadas. En Argentina es inferior.</p>
+<p>Y para la forma visceral:</p>
+<pre class="r"><code>lv_sudamerica %&gt;%
+        ggplot(aes(x = year, y = value, color = country, linetype = country)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis visceral en Sudamérica&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL,
+                            labels = c(&quot;Argentina&quot;, &quot;Bolivia&quot;, &quot;Brasil&quot;, 
+                                       &quot;Colombia&quot;,&quot;Paraguay&quot;, &quot;Venezuela&quot;)) </code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-10-1.png" width="864" /></p>
+<p>En el caso de la leishmaniasis visceral, en Brasil se condensan casi todos los casos de la región. Puede guardar relación con el ecosistema, ya que el vector necesita climas cálidos y húmedos para subsistir. También, es una enfermedad que depende mucho de los factores socioeconómicos.</p>
+<p>Ahora sí, con un panorama claro de la situación a nivel global, continental y regional, me parece pertinente analizar la situación en Argentina.</p>
+<pre class="r"><code>lc_arg &lt;- leish_cut %&gt;% 
+        filter(country == &quot;Argentina&quot;) %&gt;%
+        group_by(year) %&gt;%
+        summarise(value = sum(value)) 
+
+lv_arg &lt;- leish_visc %&gt;% 
+        filter(country == &quot;Argentina&quot;) %&gt;%
+        group_by(year) %&gt;%
+        summarise(value = sum(value)) </code></pre>
+<p>Primero, grafico la prevalencia de leishmaniasis cutánea en Argentina:</p>
+<pre class="r"><code>lc_arg %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, color = &quot;royalblue1&quot;, linetype = &quot;longdash&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis cutánea en Argentina&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-12-1.png" width="864" /></p>
+<p>En la última década y media, la prevalencia tenía una tendencia a disminuir, pero en los últimos años aumentó considerablemente. Me preocupa un poco que en la página del <a href="https://www.argentina.gob.ar/salud/glosario/leishmaniasiscutanea">Gobierno de la Nación</a> respecto a esta enfermedad, se mencionan síntomas, tratamiento y prevención; pero nada respecto a la epidemiología. Me pregunto qué tanto sabrá la población (sobre todo la de áreas endémicas) que la prevalencia aumentó.</p>
+<p>Por último, el gráfico de leishmaniasis visceral:</p>
+<pre class="r"><code>lv_arg  %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, color = &quot;royalblue1&quot;, linetype = &quot;longdash&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Año&quot;, y = &quot;Suma de casos\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Casos de leishmaniasis visceral en Argentina&quot;,
+             subtitle = &quot;Años 2005-2017\n&quot;,
+             caption = &quot;Fuente: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-21-esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms_files/figure-html/unnamed-chunk-13-1.png" width="864" /></p>
+<p>Para esta forma de la enfermedad, la prevalencia es mucho menor. Al mismo tiempo, en los últimos años presentó una tendencia a disminuir. Es importante recordar que, a diferencia de la forma cutánea, esta forma de la enfermedad es altamente mortal. Me cuestiono si al saber la mortalidad de esta forma, el pueblo argentino aceptaría el sacrificio de animales positivos contra Leishmania como medida de contención.</p>
+<p>Nuevamente, en la página del <a href="https://www.argentina.gob.ar/salud/glosario/leishmaniasisvisceral">Gobierno de la Nación</a> respecto a esta enfermedad, se mencionan síntomas, tratamiento y prevención; pero no mucho sobre epidemiología. Al menos, en este caso menciona en qué provincias suelen darse los casos (Misiones, Formosa, Corrientes y Santiago del Estero). La leishmaniasis visceral tiene una <a href="http://www.msal.gob.ar/images/stories/bes/graficos/0000000798cnt-2012-03-15_leishmaniasis-visceral-guia.pdf">guía para el equipo de salud</a> muy completa, publicada en 2010 por el Ministerio de Salud.</p>
+<p>Me encantaría encontrar un <em>dataset</em> más detallado sobre la distribución espacial de casos por provincia pero, por mala suerte, no hay.</p>
+<div id="conclusiones" class="section level4">
+<h4>Conclusiones</h4>
+<p>En base a lo analizado, considero que sería útil llevar a cabo algunas acciones veterinarias respecto a esta enfermedad. Si bien existe un Programa Nacional de Leishmaniasis, creado en el año 1999, se puede considerar que no está actualizado. Por lo tanto, propongo la realización de un nuevo Programa Nacional de Leishmaniasis, con el fin de mejorar el diagnóstico precoz de leishmaniasis en los caninos que habitan en áreas endémicas de la República Argentina, para evitar así la necesidad de eutanasiarlos.</p>
+<p>Por otro lado, el conocimiento de la enfermedad por parte de lxs propietarixs de caninos, puesto que son el mayor reservorio, puede cambiar la prevalencia de la enfermedad a mediano o largo plazo. Por esto mismo, una política pública podría ser la redacción de un afiche o tríptico que eduque sobre los signos en caninos destinado a sus propietarixs, para colocar en salas de espera de clínicas veterinarias. La retroalimentación esperada sería el aumento de consultas por sintomatología compatible por leishmaniasis a profesionales capacitadxs, para así aumentar el número de casos diagnosticados.</p>
+<p>También es importante realizar un correcto control de vectores y reservorios. Para el control de <strong>reservorios</strong> hay que eliminar la basura de forma frecuente, detectar precozmente caninos con leishmaniasis, hacer un riguroso control serológico de animales de compañía que ingresan de áreas endémicas a zonas libres, y controlar roedores mediante métodos físicos (trampas, pegamentos, etc) o métodos químicos (fumigantes, repelentes, etc). También otras cuestiones respecto a la higiene, como el descarte de todo lo utilizado para la extracción de muestras (jeringas, agujas, portaobjetos, etc) y los fluídos a analizar. Asimismo, en caso de deber eliminar un cadáver, hay que contratar a una empresa especializada en cremaciones. Para el control de <strong>vectores</strong> hay que realizar una correcta higiene del hogar y alrededores, colocar mosquiteros en las viviendas, utilizar repelentes de larga duración, controlar los los estanques públicos, y evitar la exposición al atardecer y a la medianoche que es el momento de mayor actividad del flebótomo, tal como lo expresa la <a href="http://www.anlis.gov.ar/inp/?page_id=316">Administración Nacional de Laboratorios e Institutos de Salud (ANLIS)</a> en su pagina web.</p>
+<p>Si se llevan adelante todas estas acciones, podría haber una disminución gradual de esta patología en nuestro país.</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/veterinary/">veterinary</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/veterinaria/">veterinaria</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/public-health/">public health</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/salud-publica/">salud publica</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/r-markdown/">R Markdown</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiology/">epidemiology</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiologia/">epidemiologia</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/" data-tooltip="[ESP] Observación de brotes según FAOSTAT">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Miranda Chab. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/" data-tooltip="[ESP] Observación de brotes según FAOSTAT">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2019%2F11%2Fesp-comparaciones-entre-leishmaniasis-cut%25C3%25A1neas-y-visceral-con-datos-de-la-oms%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2019%2F11%2Fesp-comparaciones-entre-leishmaniasis-cut%25C3%25A1neas-y-visceral-con-datos-de-la-oms%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2019%2F11%2Fesp-comparaciones-entre-leishmaniasis-cut%25C3%25A1neas-y-visceral-con-datos-de-la-oms%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Miranda Chab</h4>
+    
+      <div id="about-card-bio">Veterinary + Data Science</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Veterinarian, Public Health oriented
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Buenos Aires, Argentina
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+                <h3 class="media-heading">[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+                <h3 class="media-heading">[ESP] Observación de brotes según FAOSTAT</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+                <h3 class="media-heading">[ESP] Análisis de la enfermedad de Chagas</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/07/hello-r-markdown/">
+                <h3 class="media-heading">Hello R Markdown</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/welcome-to-tranquilpeak-0.4.4-beta/">
+                <h3 class="media-heading">Welcome to Tranquilpeak 0.4.4-BETA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/06/who-is-using-tranquilpeak-hugo-theme/">
+                <h3 class="media-heading">Who&#39;s using Tranquilpeak Hugo Theme</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Here you can find a list of the blogs that use Tranquilpeak theme, with different styles and customizations.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/elements-showcase/">
+                <h3 class="media-heading">Elements showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&rsquo;s simple and elegant.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/05/cover-image-showcase/">
+                <h3 class="media-heading">Cover image showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak integrate a unique &ldquo;cover image&rdquo; feature. Open this post to see how this feature sublimate your article.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/03/highlighted-code-showcase/">
+                <h3 class="media-heading">highlighted code showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak Hugo theme have its own theme to highlight source code. It&rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2014/10/tags-plugins-showcase/">
+                <h3 class="media-heading">Tags plugins showcase</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2014
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is used to show how tag plugins are displayed. See <a href="https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags">docs</a> for more info.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         17 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2019\/11\/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms\/';
+          
+            this.page.identifier = '\/2019\/11\/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

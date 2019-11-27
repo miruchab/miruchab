@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>epidemiology on VeterinR</title>
+    <link>/tags/epidemiology/</link>
+    <description>Recent content in epidemiology on VeterinR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 21 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/epidemiology/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</title>
+      <link>/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/</link>
+      <pubDate>Thu, 21 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/</guid>
+      <description>Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &amp;lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.</description>
+    </item>
+    
+    <item>
+      <title>[ESP] Observación de brotes según FAOSTAT</title>
+      <link>/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/</link>
+      <pubDate>Mon, 18 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/</guid>
+      <description>Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.</description>
+    </item>
+    
+    <item>
+      <title>[ESP] Análisis de la enfermedad de Chagas</title>
+      <link>/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/</link>
+      <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/</guid>
+      <description>Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.</description>
+    </item>
+    
+  </channel>
+</rss>
