@@ -6,10 +6,42 @@
     <description>Recent content in Posts on VeterinR</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 21 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[ENG] Observation of outbreaks according to FAOSTAT</title>
+      <link>/2019/11/eng-observation-of-outbreaks-according-to-faostat/</link>
+      <pubDate>Thu, 28 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/eng-observation-of-outbreaks-according-to-faostat/</guid>
+      <description>Recently, at 2 a.m. on a weekday, I found myself looking for datasets with veterinary interest… I’ll let you readers decide whether this makes me cool or quite the opposite!
+I came across the website for EMPRES, the Emergency Preventive System of the FAO (Food and Agriculture Organization). In this website, you can find information on many livestock and food-borne diseases.
+After a very simple search (I only filtered for the country of observation being Argentina), I came across a dataset that I found interesting, since it details all the reports for these diseases recorded by the FAO.</description>
+    </item>
+    
+    <item>
+      <title>[ENG] Analysis of Chagas disease</title>
+      <link>/2019/11/eng-analysis-of-chagas-disease/</link>
+      <pubDate>Mon, 25 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/eng-analysis-of-chagas-disease/</guid>
+      <description>At the end of my degree in Veterinary Sciences at the University of Buenos Aires, I had to submit a final paper on a subject related to my Supervised Professional Practices. I chose the area of “Preventive Medicine and Public Health”.
+It struck me that it would be a good idea to show a few of R’s qualities as applied to Veterinary Sciences, particularly in the field of Veterinary Epidemiology.</description>
+    </item>
+    
+    <item>
+      <title>[ENG] Comparisons between cutaneous and visceral Leishmaniasis with WHO data</title>
+      <link>/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/</link>
+      <pubDate>Fri, 22 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/</guid>
+      <description>I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.
+Installation of necessary packages:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &amp;lt;- get_codes(extra = TRUE) glimpse(codes) 3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis.</description>
+    </item>
     
     <item>
       <title>[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</title>
@@ -40,134 +72,6 @@ Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO
       <guid>/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/</guid>
       <description>Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
 Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.</description>
-    </item>
-    
-    <item>
-      <title>Hello R Markdown</title>
-      <link>/2015/07/hello-r-markdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/2015/07/hello-r-markdown/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
-    </item>
-    
-    <item>
-      <title>Welcome to Tranquilpeak 0.4.4-BETA</title>
-      <link>/2015/06/welcome-to-tranquilpeak-0.4.4-beta/</link>
-      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/2015/06/welcome-to-tranquilpeak-0.4.4-beta/</guid>
-      <description>&lt;p&gt;Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Who&#39;s using Tranquilpeak Hugo Theme</title>
-      <link>/2015/06/who-is-using-tranquilpeak-hugo-theme/</link>
-      <pubDate>Sun, 14 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/2015/06/who-is-using-tranquilpeak-hugo-theme/</guid>
-      <description>&lt;p&gt;Here you can find a list of the blogs that use Tranquilpeak theme, with different styles and customizations.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Elements showcase</title>
-      <link>/2015/05/elements-showcase/</link>
-      <pubDate>Thu, 28 May 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/2015/05/elements-showcase/</guid>
-      <description>&lt;p&gt;Check out how Tranquilpeak theme display well HTML elements (title, paragraph, blockquote, table and more..). It&amp;rsquo;s simple and elegant.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Cover image showcase</title>
-      <link>/2015/05/cover-image-showcase/</link>
-      <pubDate>Wed, 13 May 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/2015/05/cover-image-showcase/</guid>
-      <description>&lt;p&gt;Tranquilpeak integrate a unique &amp;ldquo;cover image&amp;rdquo; feature. Open this post to see how this feature sublimate your article.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>highlighted code showcase</title>
-      <link>/2015/03/highlighted-code-showcase/</link>
-      <pubDate>Mon, 23 Mar 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/2015/03/highlighted-code-showcase/</guid>
-      <description>&lt;p&gt;Tranquilpeak Hugo theme have its own theme to highlight source code. It&amp;rsquo;s based on GitHub theme: simple and elegant. Check out how it sublimate source codes.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Tags plugins showcase</title>
-      <link>/2014/10/tags-plugins-showcase/</link>
-      <pubDate>Wed, 29 Oct 2014 00:00:00 +0000</pubDate>
-      
-      <guid>/2014/10/tags-plugins-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how tag plugins are displayed. See &lt;a href=&#34;https://github.com/kakawait/hugo-tranquilpeak-theme/blob/master/docs/user.md#tags&#34;&gt;docs&lt;/a&gt; for more info.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hidden social section showcase</title>
-      <link>/2014/08/hidden-social-section-showcase/</link>
-      <pubDate>Sun, 17 Aug 2014 00:00:00 +0000</pubDate>
-      
-      <guid>/2014/08/hidden-social-section-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how a site looks if the social section is hidden.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hidden tag section showcase</title>
-      <link>/2014/08/hidden-tag-section-showcase/</link>
-      <pubDate>Sat, 16 Aug 2014 00:00:00 +0000</pubDate>
-      
-      <guid>/2014/08/hidden-tag-section-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how a site looks if the tag section is hidden.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hidden pagination showcase</title>
-      <link>/2014/08/hidden-pagination-showcase/</link>
-      <pubDate>Fri, 15 Aug 2014 00:00:00 +0000</pubDate>
-      
-      <guid>/2014/08/hidden-pagination-showcase/</guid>
-      <description>&lt;p&gt;This post is used to show how a site looks if the pagination is hidden.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Video integrations showcase</title>
-      <link>/2014/08/video-integrations-showcase/</link>
-      <pubDate>Sat, 09 Aug 2014 00:00:00 +0000</pubDate>
-      
-      <guid>/2014/08/video-integrations-showcase/</guid>
-      <description>&lt;p&gt;Youtube and Vimeo videos are easily integrated thanks to tags plugins. Of course, you can add video other platforms like dailymotion.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>中文測試</title>
-      <link>/2013/10/chinese-test/</link>
-      <pubDate>Wed, 02 Oct 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/2013/10/chinese-test/</guid>
-      <description>&lt;p&gt;This is a chinese test post to show you how chinese is displayed.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Image gallery showcase</title>
-      <link>/2013/02/image-gallery-showcase/</link>
-      <pubDate>Mon, 18 Feb 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/2013/02/image-gallery-showcase/</guid>
-      <description>&lt;p&gt;And here is the image gallery!&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>日本語テスト</title>
-      <link>/2013/01/japanese-test/</link>
-      <pubDate>Wed, 02 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/2013/01/japanese-test/</guid>
-      <description>&lt;p&gt;This is a Japanese test post to show you how japanese is displayed.&lt;/p&gt;</description>
     </item>
     
   </channel>

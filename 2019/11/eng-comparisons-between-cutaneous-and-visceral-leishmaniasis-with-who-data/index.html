@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="Miranda Chab">
+<meta name="keywords" content="tech">
+<meta name="description" content="I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.
+Installation of necessary packages:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) 3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis.">
+
+
+<meta property="og:description" content="I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.
+Installation of necessary packages:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) 3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[ENG] Comparisons between cutaneous and visceral Leishmaniasis with WHO data">
+<meta name="twitter:title" content="[ENG] Comparisons between cutaneous and visceral Leishmaniasis with WHO data">
+<meta property="og:url" content="/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+<meta property="twitter:url" content="/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+<meta property="og:site_name" content="VeterinR">
+<meta property="og:description" content="I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.
+Installation of necessary packages:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) 3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis.">
+<meta name="twitter:description" content="I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.
+Installation of necessary packages:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) 3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-11-22T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-11-22T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="who">
+    
+      <meta property="article:tag" content="leishmania">
+    
+      <meta property="article:tag" content="leishmaniasis">
+    
+      <meta property="article:tag" content="epidemiology">
+    
+      <meta property="article:tag" content="public health">
+    
+      <meta property="article:tag" content="veterinary">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=640">
+
+
+    <title>[ENG] Comparisons between cutaneous and visceral Leishmaniasis with WHO data</title>
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">VeterinR</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Miranda Chab</h4>
+        
+          <h5 class="sidebar-profile-bio">Veterinary + Data Science</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/miruchab">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/mirandachab/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      [ENG] Comparisons between cutaneous and visceral Leishmaniasis with WHO data
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-11-22T00:00:00Z">
+        
+  November 22, 2019
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.</p>
+<p>Installation of necessary packages:</p>
+<pre class="r"><code>library(WHO)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+
+codes &lt;- get_codes(extra = TRUE)
+glimpse(codes)</code></pre>
+<p>3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis. I found this interesting, since this year I had to do research on this disease and on the National Leishmaniasis Program for my “Public Health II” class in the Faculty of Veterinary Sciences of the University of Buenos Aires.</p>
+<p>This disease is zoonotic, anthropozoonotic, vectorial and distributed worldwide. It is caused by a parasitic protozoan of the genus <em>Leishmania</em>, which comprises over 20 different species. It is classified as a neglected tropical disease (“NTD”). It presents in three main forms: visceral leishmaniasis, cutaneous leishmaniasis and mucocutaneous leishmaniasis. In this case, I will only analyze the visceral (most severe) and cutaneous (most frequent) forms.</p>
+<p>The cycle occurs as follows:</p>
+<div class="figure">
+<img src="https://www.cdc.gov/dpdx/leishmaniasis/modules/Leishmania_LifeCycle.gif" alt="" />
+<p class="caption">Source: <em>CDC (Center for Disease Control and Prevention).</em></p>
+</div>
+<p>Dogs are the main reservoir of this disease, at least in Latin America and especially for the visceral form. When they are bitten by female phlebotomus, due to their close relationship with humans, they perpetuate the Leishmania cycle. For example, in <a href="http://www.msal.gob.ar/images/stories/bes/graficos/0000000171cnt-07-2-3-3-H-modulo-leishmaniasis.pdf">this 2010 guide</a>, I find that according to data from the Ministry of Health of Misiones, in Posadas alone there are about 100 thousand dogs, half of which are infected. Most worryingly, only 20% are receiving veterinary treatment or being monitored, which increases the risk of being bitten by a vector and transmitting the disease to humans. Faced with the advance of this disease, the health authorities launched a measure that sparked discontent: following WHO guidelines, they recommended “sacrificing dogs that have been proven to be parasitologically positive, as they can act as a source of infection of vectors and thus of leishmaniasis in humans”. This aroused the indignation of several animal associations, and 200 people marched through the streets of Posadas to condemn the killing of a thousand dogs and demand “a prudent, serious response, without sacrificing animals”. In other words, it seems that the people of Misiones do not accept euthanasia as a solution.</p>
+<p>To begin, I download and clean the datasets:</p>
+<pre class="r"><code>leish_cut &lt;- get_data(&quot;NTD_LEISHCNUM&quot;) %&gt;%
+        select(- c(publishstate, gho)) %&gt;% 
+        filter(value != &quot;No data&quot;) %&gt;% 
+        mutate(value = as.numeric(value))
+
+leish_visc &lt;- get_data(&quot;NTD_LEISHVNUM&quot;) %&gt;%
+        select(- c(publishstate, gho)) %&gt;% 
+        filter(value != &quot;No data&quot;) %&gt;% 
+        mutate(value = as.numeric(value))</code></pre>
+<p>Sources:</p>
+<p><a href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3760" class="uri">https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3760</a></p>
+<p><a href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3759" class="uri">https://www.who.int/data/gho/indicator-metadata-registry/imr-details/3759</a></p>
+<p>With these datasets, I can observe the distribution from the macro (global) to a slightly more micro level (in this case, Argentina).</p>
+<p>First, I want to get a global overview of cutaneous leishmaniasis, by region:</p>
+<pre class="r"><code>leish_cut %&gt;%
+        group_by(region, year) %&gt;%
+        summarise(value = sum(value)) %&gt;%
+        ggplot(aes(x = year, y = value, color = region, linetype = region)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of cutaneous leishmaniasis (by region)&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL) </code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
+<p>This chart shows that the region with the most cases is the Middle East, with a large increase in this time range and a decrease towards 2017. On the WHO website, I find that 70% of the world’s cutaneous leishmaniasis cases are concentrated in this region. Apparently, none of these regions is free of this disease.</p>
+<p>I do the same for visceral leishmaniasis:</p>
+<pre class="r"><code>leish_visc %&gt;%
+        group_by(region, year) %&gt;%
+        summarise(value = sum(value)) %&gt;%
+        ggplot(aes(x = year, y = value, color = region, linetype = region)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of visceral leishmaniasis (by region)&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL) </code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
+<p>In the case of visceral leishmaniasis, it is much less frequent; therefore the scale for the sum of cases is considerably smaller. In this case, the region with the highest prevalence is Southeast Asia. Once again, there are no totally free areas, although the prevalence is much lower in Europe and the Western Pacific (represented in this dataset only by China).</p>
+<p>Before moving on to a regional view, I want to see the distribution throughout the Americas.</p>
+<p>In the case of cutaneous leishmaniasis, the represented countries are Argentina, Bolivia, Brazil, Colombia, Costa Rica, Ecuador, El Salvador, Guatemala, Guyana, Honduras, Mexico, Nicaragua, Panama, Paraguay, Peru, Suriname, United States and Venezuela.</p>
+<p>In the case of visceral leishmaniasis, the represented countries are Argentina, Bolivia, Brazil, Colombia, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Paraguay and Venezuela.</p>
+<p>In order to know if there is any problem regarding the representation of countries or if only endemic countries are represented, I looked for the epidemiological situation of each country with respect to the two forms of the disease. Apparently, the dataset only contains those countries that are endemic… It makes sense.</p>
+<pre class="r"><code>lc_america &lt;- leish_cut %&gt;%
+        filter(region == &quot;Americas&quot;) %&gt;%
+        group_by(year) %&gt;%
+        summarise(value = sum(value))
+
+lv_america &lt;- leish_visc %&gt;% 
+        filter(region == &quot;Americas&quot;) %&gt;% 
+        group_by(year) %&gt;%
+        summarise(value = sum(value))</code></pre>
+<p>To visualize cutaneous leishmaniasis in the Americas:</p>
+<pre class="r"><code>lc_america %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, colour = &quot;indianred1&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of cutaneous leishmaniasis in the Americas&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<p>For visceral leishmaniasis:</p>
+<pre class="r"><code>lv_america %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, colour = &quot;indianred1&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of visceral leishmaniasis in the Americas&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-7-1.png" width="864" /></p>
+<p>Cutaneous leishmaniasis is more prevalent than visceral leishmaniasis in the Americas, with more than 70,000 cases annually. Visceral leishmaniasis does not reach 5,000 cases per year, but it is much more serious. According to this <a href="https://www.who.int/es/news-room/fact-sheets/detail/leishmaniasis#:~:targetText=Regi%C3%B3n%20de%20las%20Am%C3%A9ricas%20de,y%20la%20respuesta%20al%20tratamiento.">WHO webpage</a>, “in more than 95% of the cases it is fatal if not treated. It is characterized by irregular episodes of fever, weight loss, hepatosplenomegaly and anemia”. The cutaneous form, on the other hand, “produces cutaneous lesions, especially ulcers, in the exposed areas of the body, which leave life-long scars and are a cause of serious disability”.</p>
+<p>Now, I’m curious about the distribution in South America. I know that Brazil concentrates a large number of cases, both cutaneous and visceral, but before Argentina, I prefer to look at the distribution in time in South America.</p>
+<pre class="r"><code>lc_southamerica &lt;- leish_cut %&gt;% 
+        filter(country %in% c(&quot;Argentina&quot;, &quot;Bolivia (Plurinational State of)&quot;, &quot;Brazil&quot;, &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Guyana&quot;, &quot;Paraguay&quot;, &quot;Peru&quot;, &quot;Suriname&quot;, &quot;Venezuela (Bolivarian Republic of)&quot;)) %&gt;%
+        group_by(year, country) %&gt;%
+        summarise(value = sum(value))
+
+lv_southamerica &lt;- leish_visc %&gt;% 
+        filter(country %in% c(&quot;Argentina&quot;, &quot;Bolivia (Plurinational State of)&quot;, &quot;Brazil&quot;, &quot;Colombia&quot;, &quot;Ecuador&quot;, &quot;Guyana&quot;, &quot;Paraguay&quot;, &quot;Peru&quot;, &quot;Suriname&quot;, &quot;Venezuela (Bolivarian Republic of)&quot;)) %&gt;%
+        group_by(year, country) %&gt;%
+        summarise(value = sum(value)) </code></pre>
+<p>I start with cutaneous leishmaniasis:</p>
+<pre class="r"><code>lc_southamerica %&gt;%
+        ggplot(aes(x = year, y = value, color = country, linetype = country)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of cutaneous leishmaniasis in South America&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL) </code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-9-1.png" width="864" /></p>
+<p>I was right: Brazil has the highest prevalence of the cutaneous form… But levels are also high in Colombia and Peru, and lower in Argentina.</p>
+<p>And for the visceral form:</p>
+<pre class="r"><code>lv_southamerica %&gt;%
+        ggplot(aes(x = year, y = value, color = country, linetype = country)) +
+        geom_line(size = 1) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of visceral leishmaniasis in South America&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;) +
+        scale_linetype_discrete(guide = FALSE) +
+        scale_color_discrete(name = NULL) </code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-10-1.png" width="864" /></p>
+<p>In the case of visceral leishmaniasis, almost all cases in the region are condensed in Brazil. This could be related to the ecosystem, since the vector needs warm and humid climates to survive. Moreover, it is a disease that depends a lot on socioeconomic factors.</p>
+<p>Now, having a clear overview of the situation at the global, continental and regional levels, I believe it is pertinent to analyze the situation in Argentina.</p>
+<pre class="r"><code>lc_arg &lt;- leish_cut %&gt;% 
+        filter(country == &quot;Argentina&quot;) %&gt;%
+        group_by(year) %&gt;%
+        summarise(value = sum(value)) 
+
+lv_arg &lt;- leish_visc %&gt;% 
+        filter(country == &quot;Argentina&quot;) %&gt;%
+        group_by(year) %&gt;%
+        summarise(value = sum(value)) </code></pre>
+<p>First, I chart the prevalence of cutaneous leishmaniasis in Argentina:</p>
+<pre class="r"><code>lc_arg %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, color = &quot;royalblue1&quot;, linetype = &quot;longdash&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of cutaneous leishmaniasis in Argentina&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-12-1.png" width="864" /></p>
+<p>In the past 15 years, prevalence has shown a downward trend, but it has increased considerably in recent years. I am a little concerned that the <a href="https://www.argentina.gob.ar/salud/glosario/leishmaniasiscutanea">National Government’s webpage</a> for this disease discusses symptoms, treatment and prevention, but says nothing regarding epidemiology. I wonder to what extent the population (especially in endemic areas) knows of the increased prevalence.</p>
+<p>Finally, the visceral leishmaniasis chart:</p>
+<pre class="r"><code>lv_arg  %&gt;%
+        ggplot(aes(x = year, y = value)) +
+        geom_line(size = 2, color = &quot;royalblue1&quot;, linetype = &quot;longdash&quot;) +
+        theme_light(9) +
+        scale_x_continuous(breaks = NULL) +
+        labs(x = &quot;Year&quot;, y = &quot;Sum of cases\n&quot;,
+             linetype = NULL, color = NULL,
+             title = &quot;Cases of visceral leishmaniasis in Argentina&quot;,
+             subtitle = &quot;Years 2005-2017\n&quot;,
+             caption = &quot;Source: https://www.who.int/&quot;)</code></pre>
+<p><img src="/post/2019-11-22-eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data_files/figure-html/unnamed-chunk-13-1.png" width="864" /></p>
+<p>For this form of the disease, prevalence is much lower, and has experienced a downturn in recent years. It is important to remember that, unlike cutaneous leishmaniasis, this form of the disease is highly fatal. I wonder if Argentine people would accept the sacrifice of <em>Leishmania</em>-positive animals as a containment measure if they were aware of how deadly this form is.</p>
+<p>Again, the <a href="https://www.argentina.gob.ar/salud/glosario/leishmaniasisvisceral">National Government’s webpage</a> for this disease discusses symptoms, treatment and prevention, but doesn’t say much about epidemiology. At least, in this case it mentions in which provinces cases usually occur (Misiones, Formosa, Corrientes and Santiago del Estero). Visceral leishmaniasis has a very complete <a href="http://www.msal.gob.ar/images/stories/bes/graficos/0000000798cnt-2012-03-15_leishmaniasis-visceral-guia.pdf">guideline for health teams</a>, published in 2010 by the Ministry of Health.</p>
+<p>I would love to find a more detailed dataset on the spatial distribution of cases by province but unfortunately there isn’t one.</p>
+<div id="conclusions" class="section level4">
+<h4>Conclusions</h4>
+<p>Based on this analysis, I believe that it would be useful to carry out some veterinary actions with regard to this disease. Although there is a National Leishmaniasis Program, created in 1999, it could be considered outdated. Therefore, I propose establishing a new National Leishmaniasis Program, in order to improve the early diagnosis of leishmaniasis in canines living in endemic areas of Argentina, in order to prevent the need for euthanasia.</p>
+<p>On the other hand, awareness of the disease by dog owners can change the prevalence of the disease in the medium or long term, since they are the largest reservoir. For this reason, a public policy could be writing a poster or leaflet aimed at dog owners that provides education about the signs of the disease, to be placed in the waiting rooms of veterinary clinics. The expected feedback would be an increment in the number of consultations with trained professionals for symptomatology compatible with leishmaniasis, in order to raise the number of diagnosed cases.</p>
+<p>It is also important to achieve correct control of vectors and reservoirs. For <strong>reservoirs</strong>, it is necessary to dispose of garbage frequently, have early detection of canines with leishmaniasis, conduct a rigorous serological control of pets going from endemic areas to disease-free areas, and control rodents through physical (traps, glues, etc.) or chemical methods (fumigants, repellents, etc.). There are also other hygiene issues, such as the disposal of everything used to draw samples (syringes, needles, slides, etc.) and the fluids to be analyzed. Likewise, if a body has to be disposed of, a company specializing in cremation must be hired. In order to control <strong>vectors</strong>, it is necessary to ensure proper hygiene in and around the home, place mosquito nets in the homes, use long-lasting repellents, control public ponds, and avoid exposure at dusk and midnight, which is the time of greatest activity for the phlebotomus, as stated by the National Administration of Laboratories and Health Institutes (ANLIS) on its <a href="http://www.anlis.gov.ar/inp/?page_id=316">website</a>.</p>
+<p>If all these actions are implemented, there could be a gradual reduction of this pathology in our country.</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/who/">who</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/leishmania/">leishmania</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/leishmaniasis/">leishmaniasis</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/epidemiology/">epidemiology</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/public-health/">public health</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/veterinary/">veterinary</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/eng-analysis-of-chagas-disease/" data-tooltip="[ENG] Analysis of Chagas disease">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/" data-tooltip="[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Miranda Chab. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/eng-analysis-of-chagas-disease/" data-tooltip="[ENG] Analysis of Chagas disease">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/" data-tooltip="[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2019%2F11%2Feng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2019%2F11%2Feng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2019%2F11%2Feng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/77ef1737ff0be5efe7ea547ee2d18672?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Miranda Chab</h4>
+    
+      <div id="about-card-bio">Veterinary + Data Science</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Veterinarian, Public Health oriented
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Buenos Aires, Argentina
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/eng-observation-of-outbreaks-according-to-faostat/">
+                <h3 class="media-heading">[ENG] Observation of outbreaks according to FAOSTAT</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Recently, at 2 a.m. on a weekday, I found myself looking for datasets with veterinary interest… I’ll let you readers decide whether this makes me cool or quite the opposite!
+I came across the website for EMPRES, the Emergency Preventive System of the FAO (Food and Agriculture Organization). In this website, you can find information on many livestock and food-borne diseases.
+After a very simple search (I only filtered for the country of observation being Argentina), I came across a dataset that I found interesting, since it details all the reports for these diseases recorded by the FAO.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/eng-analysis-of-chagas-disease/">
+                <h3 class="media-heading">[ENG] Analysis of Chagas disease</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">At the end of my degree in Veterinary Sciences at the University of Buenos Aires, I had to submit a final paper on a subject related to my Supervised Professional Practices. I chose the area of “Preventive Medicine and Public Health”.
+It struck me that it would be a good idea to show a few of R’s qualities as applied to Veterinary Sciences, particularly in the field of Veterinary Epidemiology.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data/">
+                <h3 class="media-heading">[ENG] Comparisons between cutaneous and visceral Leishmaniasis with WHO data</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">I recently found out that the World Health Organization (WHO) has a package available for R in CRAN. CRAN is an archive of packages, codes and documents in general for this programming language. Although the WHO package is not official, it contains very interesting data from this agency.
+Installation of necessary packages:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) 3287 datasets on various topics are automatically downloaded with this package, some of them on leishmaniasis.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-comparaciones-entre-leishmaniasis-cut%C3%A1neas-y-visceral-con-datos-de-la-oms/">
+                <h3 class="media-heading">[ESP] Comparaciones entre Leishmaniasis cutáneas y visceral con datos de la OMS</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco encontré que la Organización Mundial de la Salud (OMS, o WHO por sus siglas en inglés), tiene un paquete disponible para R en CRAN. CRAN es un archivo de paquetes, códigos y documentos en general para este lenguaje de programación. Si bien el paquete WHO no es oficial, contiene datos de esta entidad que son muy interesantes.
+Instalación de paquetes necesarios:
+library(WHO) library(dplyr) library(tidyverse) library(ggplot2) library(lubridate) codes &lt;- get_codes(extra = TRUE) glimpse(codes) Con este paquete, se descargan automáticamente 3287 datasets sobre diversos tópicos.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-observaci%C3%B3n-de-brotes-seg%C3%BAn-faostat/">
+                <h3 class="media-heading">[ESP] Observación de brotes según FAOSTAT</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Hace poco, me encontré a mí misma buscando datasets de interés veterinario un día de semana a las 2 AM… Delego a quien lea esto la tarea de juzgar si eso me hace cool o todo lo contrario!
+Encontré el sitio de EMPRES, el Sistema de Prevención de Emergencias de la FAO (Food and Agriculture Organization. Allí, se puede encontrar información respecto a muchas enfermedades ganaderas o de origen alimentario.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/11/esp-an%C3%A1lisis-de-la-enfermedad-de-chagas/">
+                <h3 class="media-heading">[ESP] Análisis de la enfermedad de Chagas</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Al final de mi carrera de Ciencias Veterinarias en la Universidad de Buenos Aires, tuve que presentar un trabajo final sobre una temática que estuviera relacionada a mis Prácticas Profesionales Supervisadas, para las cuales elegí la rama de “Medicina Preventiva y Salud Pública”.
+Se me ocurrió que era una buena idea mostrar un poco las bondades de R en el uso de las Ciencias Veterinarias, particularmente en el campo de la Epidemiología Veterinaria.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         6 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2019\/11\/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data\/';
+          
+            this.page.identifier = '\/2019\/11\/eng-comparisons-between-cutaneous-and-visceral-leishmaniasis-with-who-data\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
